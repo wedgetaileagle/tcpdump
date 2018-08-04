@@ -1,11 +1,18 @@
 #!/bin/bash
-LOOPMAX='2'
-DURATION='15'
-TCPORT='20104'
-SERVERNAME="$(uname -a | cut -b '7-17')"
+##
+## TCP Port Capture
+### Change the timeout command value to desired duration
+#### Duration = LOOPMAX x timeout ( In Minutes )
+### Change TCP to desired Port number
+#### Currently set to 22
+##
 
-cd /tmp
+LOOPMAX='2'
+SERVERNAME="$(uname -a | cut -b '7-17')"
+TCPDUMPDIR="/tmp"
+
+cd $TCPDUMPDIR
 
 for I in $(seq 1 $LOOPMAX); do
-    timeout $DURATIONm tcpdump -w "$SERVERNAME_TCPort$TCPORT_$(date +%m%d%H%M)" 'tcp port $TCPORT'
+    timeout 1m tcpdump -w "$TCPDUMPDIR/$SERVERNAME-TCPort$TCPORT-$(date +%m%d%H%M)" 'tcp port 22'
 done
